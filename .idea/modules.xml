@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Puggle.iml" filepath="$PROJECT_DIR$/Puggle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/puggle/puggle.iml" filepath="$PROJECT_DIR$/puggle/puggle.iml" />
+    </modules>
+  </component>
+</project>
