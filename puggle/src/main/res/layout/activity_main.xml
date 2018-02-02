@@ -11,42 +11,86 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/bg_day"/>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/horizontalCalendar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@android:color/background_dark">
-        <GridLayout
+        android:weightSum="10">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:orientation="vertical">
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginTop="80dp"
+                android:textSize="70sp"
                 android:textColor="@android:color/white"
-                android:text="share"/>
+                android:layout_gravity="center_horizontal"/>
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_columnSpan="8"
-                android:layout_gravity="fill"
+                android:textSize="21sp"
                 android:textColor="@android:color/white"
-                android:text="Jul"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:text="refresh"/>
-        </GridLayout>
-        <com.puggle.magic.puggle.calendar.horizontal.HorizontalCalendarView
-            android:id="@+id/calendarView"
+                android:layout_gravity="center_horizontal"
+                android:text="1월 31일 수요일"/>
+        </LinearLayout>
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textColorSelected="@android:color/white"/>
+            android:layout_height="0dp"
+            android:layout_weight="4">
+            <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/joystickView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                custom:JV_backgroundColor="#00FFFFFF"
+                custom:JV_backgroundSizeRatio="51%"
+                custom:JV_buttonDirection="both"
+                custom:JV_borderColor="#FFFFFFFF"
+                custom:JV_borderWidth="2dp"
+                custom:JV_buttonColor="#FFFFFFFF"
+                custom:JV_buttonSizeRatio="17%"
+                custom:JV_fixedCenter="false"/>
+            <TextView
+                android:id="@+id/labelTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="50dp"
+                android:text="top"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/labelBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="50dp"
+                android:text="bottom"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/labelLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="120dp"
+                android:text="left"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/labelRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="120dp"
+                android:text="right"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+        </FrameLayout>
     </LinearLayout>
 </FrameLayout>
