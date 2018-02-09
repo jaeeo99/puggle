@@ -15,17 +15,17 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.airbnb.lottie.Cancellable;
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieComposition;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +34,7 @@ import java.util.Locale;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class LockScreenActivity extends AppCompatActivity {
     private boolean isCalled = false;
     private String callTo = "";
 
@@ -42,13 +42,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
+        Window w = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+        w.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_main);
+
         setDate();
         ArrayList<TextView> textViews = getTextViews();
+
+        LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animationView);
 
 
         JoystickView joystick = findViewById(R.id.joystickView);
@@ -56,44 +60,49 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMove(int angle, int strength) {
                 for (TextView textView : textViews) {
-                    textView.setTextColor(Color.WHITE);
+                    textView.setTextColor(Color.BLACK);
                     textView.setTextSize(15);
                 }
                 Log.d("Log", "angle : " + angle + ", strength : " + strength);
-                if(strength == 0 && angle == 0 && isCalled){
-                    call(callTo);
-                    isCalled = false;
-                    callTo = "";
+                if(strength == 0 && angle == 0){
+                    if(isCalled){
+                        call(callTo);
+                        isCalled = false;
+                        callTo = "";
+                    }
+                    animationView.playAnimation();
                 }
                 else if (strength > 90 && strength < 101) {
+                    animationView.pauseAnimation();
                     isCalled = false;
                     if (angle < 45) {
-                        textViews.get(0).setTextColor(Color.BLACK);
+                        textViews.get(0).setTextColor(Color.WHITE);
                         textViews.get(0).setTextSize(20);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else if (angle < 135) {
-                        textViews.get(1).setTextColor(Color.BLACK);
+                        textViews.get(1).setTextColor(Color.WHITE);
                         textViews.get(1).setTextSize(20);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else if (angle < 225) {
-                        textViews.get(2).setTextColor(Color.BLACK);
+                        textViews.get(2).setTextColor(Color.WHITE);
                         textViews.get(2).setTextSize(20);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else if (angle < 315) {
-                        textViews.get(3).setTextColor(Color.BLACK);
+                        textViews.get(3).setTextColor(Color.WHITE);
                         textViews.get(3).setTextSize(20);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else {
-                        textViews.get(0).setTextColor(Color.BLACK);
+                        textViews.get(0).setTextColor(Color.WHITE);
                         textViews.get(0).setTextSize(20);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     }
                 } else {
+                    animationView.pauseAnimation();
                     isCalled = false;
                 }
             }
@@ -132,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (permissionResult == PackageManager.PERMISSION_DENIED) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(LockScreenActivity.this);
                     dialog.setTitle("권한이 필요합니다.")
                             .setMessage("이 기능을 사용하기 위해서는 단말기의 \"전화걸기\" 권한이 필요합니다. 계속 하시겠습니까?")
                             .setPositiveButton("네", new DialogInterface.OnClickListener() {
@@ -146,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(MainActivity.this, "기능을 취소했습니다", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LockScreenActivity.this, "기능을 취소했습니다", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .create()
@@ -172,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             } else {
-                Toast.makeText(MainActivity.this, "권한요청을 거부했습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LockScreenActivity.this, "권한요청을 거부했습니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
