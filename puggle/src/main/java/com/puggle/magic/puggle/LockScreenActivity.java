@@ -15,6 +15,7 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -47,7 +48,8 @@ public class LockScreenActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
-        w.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        w.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
         setContentView(R.layout.activity_lockscreen);
 
         setDate();
@@ -160,7 +162,6 @@ public class LockScreenActivity extends AppCompatActivity {
         return textViews;
     }
 
-    /** Called when the user taps the Send button */
     public void call(String phoneNum) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int permissionResult = checkSelfPermission(Manifest.permission.CALL_PHONE);
@@ -210,5 +211,21 @@ public class LockScreenActivity extends AppCompatActivity {
                 Toast.makeText(LockScreenActivity.this, "권한요청을 거부했습니다.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("onKeyDown", "clicked : " + keyCode);
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ( keyCode == KeyEvent.KEYCODE_BACK ) {
+                return true;
+            }
+            else if ( keyCode == KeyEvent.KEYCODE_HOME ) {
+                return true;
+            }
+            else if ( keyCode == KeyEvent.KEYCODE_MENU ) {
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
