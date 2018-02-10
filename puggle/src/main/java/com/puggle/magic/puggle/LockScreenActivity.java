@@ -15,15 +15,16 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.airbnb.lottie.Cancellable;
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieComposition;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
 
 import java.text.SimpleDateFormat;
@@ -47,21 +48,44 @@ public class LockScreenActivity extends AppCompatActivity {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
         w.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_lockscreen);
 
         setDate();
-        ArrayList<TextView> textViews = getTextViews();
+        ArrayList<TextView> mTextViews = getTextViews();
 
-        LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animationView);
-
+        LottieAnimationView mWaitingAnimationView = (LottieAnimationView) findViewById(R.id.waitingAnimationView);
+        LottieAnimationView mTouchedAnimationView  = (LottieAnimationView) findViewById(R.id.touchedAnimationView);
+        ImageView layoutBackground = (ImageView) findViewById(R.id.layoutBackground);
+        layoutBackground.setImageAlpha(200);
 
         JoystickView joystick = findViewById(R.id.joystickView);
+        joystick.setOnTouchListener(new JoystickView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    mTouchedAnimationView.setVisibility(View.VISIBLE);
+                    mTouchedAnimationView.playAnimation();
+                    mWaitingAnimationView.cancelAnimation();
+                    mWaitingAnimationView.setVisibility(View.GONE);
+                    layoutBackground.setImageAlpha(100);
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    mWaitingAnimationView.setVisibility(View.VISIBLE);
+                    mWaitingAnimationView.playAnimation();
+                    mTouchedAnimationView.cancelAnimation();
+                    mTouchedAnimationView.setVisibility(View.GONE);
+                    layoutBackground.setImageAlpha(200);
+                }
+                return false;
+            }
+        });
         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                for (TextView textView : textViews) {
+                for (TextView textView : mTextViews) {
                     textView.setTextColor(Color.BLACK);
                     textView.setTextSize(15);
+                    textView.setVisibility(View.GONE);
                 }
                 Log.d("Log", "angle : " + angle + ", strength : " + strength);
                 if(strength == 0 && angle == 0){
@@ -70,39 +94,41 @@ public class LockScreenActivity extends AppCompatActivity {
                         isCalled = false;
                         callTo = "";
                     }
-                    animationView.playAnimation();
                 }
                 else if (strength > 90 && strength < 101) {
-                    animationView.pauseAnimation();
                     isCalled = false;
                     if (angle < 45) {
-                        textViews.get(0).setTextColor(Color.WHITE);
-                        textViews.get(0).setTextSize(20);
+                        mTextViews.get(0).setTextColor(Color.WHITE);
+                        mTextViews.get(0).setTextSize(20);
+                        mTextViews.get(0).setVisibility(View.VISIBLE);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else if (angle < 135) {
-                        textViews.get(1).setTextColor(Color.WHITE);
-                        textViews.get(1).setTextSize(20);
+                        mTextViews.get(1).setTextColor(Color.WHITE);
+                        mTextViews.get(1).setTextSize(20);
+                        mTextViews.get(1).setVisibility(View.VISIBLE);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else if (angle < 225) {
-                        textViews.get(2).setTextColor(Color.WHITE);
-                        textViews.get(2).setTextSize(20);
+                        mTextViews.get(2).setTextColor(Color.WHITE);
+                        mTextViews.get(2).setTextSize(20);
+                        mTextViews.get(2).setVisibility(View.VISIBLE);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else if (angle < 315) {
-                        textViews.get(3).setTextColor(Color.WHITE);
-                        textViews.get(3).setTextSize(20);
+                        mTextViews.get(3).setTextColor(Color.WHITE);
+                        mTextViews.get(3).setTextSize(20);
+                        mTextViews.get(3).setVisibility(View.VISIBLE);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     } else {
-                        textViews.get(0).setTextColor(Color.WHITE);
-                        textViews.get(0).setTextSize(20);
+                        mTextViews.get(0).setTextColor(Color.WHITE);
+                        mTextViews.get(0).setTextSize(20);
+                        mTextViews.get(0).setVisibility(View.VISIBLE);
                         isCalled = true;
                         callTo = "010-3477-1507";
                     }
                 } else {
-                    animationView.pauseAnimation();
                     isCalled = false;
                 }
             }

@@ -27,8 +27,8 @@ public class ScreenService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId){
         super.onStartCommand(intent, flags, startId);
         if(intent != null){
-            if(intent.getAction()==null){
-                if(mReceiver==null){
+            if(intent.getAction() == null){
+                if(mReceiver == null){
                     mReceiver = new ScreenReceiver();
                     IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
                     registerReceiver(mReceiver, filter);
