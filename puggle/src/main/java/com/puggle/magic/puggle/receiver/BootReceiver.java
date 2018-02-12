@@ -1,10 +1,13 @@
-package com.puggle.magic.puggle;
+package com.puggle.magic.puggle.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import com.puggle.magic.puggle.service.ScreenService;
+import com.puggle.magic.puggle.activity.LockScreenActivity;
 
 public class BootReceiver extends BroadcastReceiver {
 

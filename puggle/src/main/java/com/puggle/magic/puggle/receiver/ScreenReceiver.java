@@ -1,13 +1,14 @@
-package com.puggle.magic.puggle;
+package com.puggle.magic.puggle.receiver;
 
 import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.puggle.magic.puggle.activity.LockScreenActivity;
 
 public class ScreenReceiver extends BroadcastReceiver {
     private KeyguardManager km = null;

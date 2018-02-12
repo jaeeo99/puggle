@@ -1,8 +1,11 @@
-package com.puggle.magic.puggle;
+package com.puggle.magic.puggle.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.puggle.magic.puggle.R;
+import com.puggle.magic.puggle.service.ScreenService;
 
 /**
  * Created by jaeeo99 on 2018. 2. 10..

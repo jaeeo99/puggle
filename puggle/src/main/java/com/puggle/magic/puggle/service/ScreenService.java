@@ -1,10 +1,13 @@
-package com.puggle.magic.puggle;
+package com.puggle.magic.puggle.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
+
+import com.puggle.magic.puggle.receiver.PackageReceiver;
+import com.puggle.magic.puggle.receiver.ScreenReceiver;
 
 public class ScreenService extends Service {
     private ScreenReceiver mScreenReceiver = null;

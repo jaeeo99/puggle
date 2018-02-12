@@ -1,6 +1,9 @@
-package com.puggle.magic.puggle;
+package com.puggle.magic.puggle.activity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,9 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -26,7 +27,7 @@ import android.widget.Toast;
 
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.mikepenz.iconics.context.IconicsLayoutInflater;
+import com.puggle.magic.puggle.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,13 +37,15 @@ import java.util.Locale;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 
-public class LockScreenActivity extends AppCompatActivity {
+public class LockScreenActivity extends Activity {
     private boolean isCalled = false;
     private String callTo = "";
 
+    private KeyguardManager km = null;
+    private KeyguardManager.KeyguardLock keyLock = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
         Window w = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -52,7 +55,7 @@ public class LockScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_lockscreen);
 
-        setDate();
+        setDateTime();
         ArrayList<TextView> mTextViews = getTextViews();
 
         LottieAnimationView mWaitingAnimationView = (LottieAnimationView) findViewById(R.id.waitingAnimationView);
@@ -89,7 +92,6 @@ public class LockScreenActivity extends AppCompatActivity {
                     textView.setTextSize(15);
                     textView.setVisibility(View.GONE);
                 }
-                Log.d("Log", "angle : " + angle + ", strength : " + strength);
                 if(strength == 0 && angle == 0){
                     if(isCalled){
                         call(callTo);
@@ -109,8 +111,7 @@ public class LockScreenActivity extends AppCompatActivity {
                         mTextViews.get(1).setTextColor(Color.WHITE);
                         mTextViews.get(1).setTextSize(20);
                         mTextViews.get(1).setVisibility(View.VISIBLE);
-                        isCalled = true;
-                        callTo = "010-3477-1507";
+                        unlock();
                     } else if (angle < 225) {
                         mTextViews.get(2).setTextColor(Color.WHITE);
                         mTextViews.get(2).setTextSize(20);
@@ -137,7 +138,7 @@ public class LockScreenActivity extends AppCompatActivity {
         }, 100);
     }
 
-    public void setDate(){
+    private void setDateTime(){
         final Handler timeHandler = new Handler(getMainLooper());
         TextView timeTextView = findViewById(R.id.time);
         timeHandler.postDelayed(new Runnable() {
@@ -153,7 +154,18 @@ public class LockScreenActivity extends AppCompatActivity {
         dateTextView.setText(dateFormat.format(today));
     }
 
-    public ArrayList<TextView> getTextViews(){
+    private void unlock(){
+        if (km == null) {
+            km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        }
+        if (keyLock == null) {
+            keyLock = km.newKeyguardLock(Context.KEYGUARD_SERVICE);
+        }
+        keyLock.disableKeyguard();
+        finish();
+    }
+
+    private ArrayList<TextView> getTextViews(){
         ArrayList<TextView> textViews = new ArrayList<>();
         textViews.add(findViewById(R.id.labelRight));
         textViews.add(findViewById(R.id.labelTop));
@@ -162,7 +174,7 @@ public class LockScreenActivity extends AppCompatActivity {
         return textViews;
     }
 
-    public void call(String phoneNum) {
+    private void call(String phoneNum) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int permissionResult = checkSelfPermission(Manifest.permission.CALL_PHONE);
 
@@ -214,7 +226,6 @@ public class LockScreenActivity extends AppCompatActivity {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d("onKeyDown", "clicked : " + keyCode);
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             if ( keyCode == KeyEvent.KEYCODE_BACK ) {
                 return true;
