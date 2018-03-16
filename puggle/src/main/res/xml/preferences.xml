@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="전화 설정"
+        android:key="call_settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="enable_emergency"
+            android:summary="긴급 전화를 사용합니다."
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="긴급전화 사용" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="enable_unlock"
+            android:summary="잠금 해제를 사용합니다."
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="잠금해제 사용" />
+        <Preference
+            android:key="reset_pref"
+            android:title="전화 설정 초기화" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="환경 설정"
+        android:key="pref_settings">
+        <Preference
+            android:key="background"
+            android:title="배경화면 설정" />
+        <Preference
+            android:key="notification"
+            android:title="애플리케이션 알림" />
+        <Preference
+            android:key="advertising"
+            android:title="광고 제거" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="기타"
+        android:key="etc_settings">
+        <Preference
+            android:key="created_by"
+            android:title="이 앱은 누가 만들었나요?" />
+    </PreferenceCategory>
+</PreferenceScreen>
