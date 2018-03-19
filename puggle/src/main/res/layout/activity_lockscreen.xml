@@ -44,14 +44,14 @@
             android:layout_height="0dp"
             android:layout_weight="4">
             <RelativeLayout
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_gravity="center_horizontal">
                 <io.github.controlwear.virtual.joystick.android.JoystickView
                     xmlns:custom="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/joystickView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
                     android:layout_centerInParent="true"
                     custom:JV_backgroundColor="#00FFFFFF"
                     custom:JV_backgroundSizeRatio="51%"
@@ -81,9 +81,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="30dp"
+                    android:layout_margin="15dp"
                     android:visibility="gone"
-                    android:text="top"
                     android:textColor="#000000"
                     android:textSize="15sp"/>
                 <TextView
@@ -92,9 +91,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="30dp"
+                    android:layout_margin="15dp"
                     android:visibility="gone"
-                    android:text="bottom"
                     android:textColor="#000000"
                     android:textSize="15sp"/>
                 <TextView
@@ -103,9 +101,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="30dp"
+                    android:layout_margin="50dp"
                     android:visibility="gone"
-                    android:text="left"
                     android:textColor="#000000"
                     android:textSize="15sp"/>
                 <TextView
@@ -114,9 +111,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="30dp"
+                    android:layout_margin="50dp"
                     android:visibility="gone"
-                    android:text="right"
                     android:textColor="#000000"
                     android:textSize="15sp"/>
             </RelativeLayout>

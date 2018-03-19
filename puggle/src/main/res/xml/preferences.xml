@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="전화 설정"
-        android:key="call_settings">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="enable_emergency"
-            android:summary="긴급 전화를 사용합니다."
-            android:switchTextOff="OFF"
-            android:switchTextOn="ON"
-            android:title="긴급전화 사용" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="enable_unlock"
-            android:summary="잠금 해제를 사용합니다."
-            android:switchTextOff="OFF"
-            android:switchTextOn="ON"
-            android:title="잠금해제 사용" />
+        android:title="버튼 설정"
+        android:key="button_settings">
         <Preference
             android:key="reset_pref"
-            android:title="전화 설정 초기화" />
+            android:title="설정 초기화" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="환경 설정"

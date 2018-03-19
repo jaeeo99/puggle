@@ -2,6 +2,7 @@ package com.puggle.magic.puggle.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.KeyguardManager;
 import android.content.Context;
@@ -18,7 +19,6 @@ import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -91,9 +91,14 @@ public class LockScreenActivity extends Activity {
             cursor.moveToFirst();
             String name = cursor.getString(0);  //0은 이름을 얻어옵니다.
             String number = cursor.getString(1);   //1은 번호를 받아옵니다.
-            Log.d("name", name);
-            Log.d("number", number);
             cursor.close();
+
+            SharedPreferences sharedPref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(flag, 0);
+            editor.putString(flag + "_ACTION", name);
+            editor.putString(flag + "_NUMBER", number);
+            editor.commit();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -125,44 +130,37 @@ public class LockScreenActivity extends Activity {
                 if(strength == 0 && angle == 0){
                     if(!flag.equals(FLAG_NONE)){
                         raiseAction();
-//                        switch(flag) {
-//                            case FLAG_TOP:
-////                                requestUnlock();
-//                                return;
-//                            case FLAG_BOTTOM:
-//                                return;
-//                            case FLAG_LEFT:
-//                                return;
-//                            case FLAG_RIGHT:
-//                                return;
-//                            default:
-//                                return;
-//                        }
                     }
                 }
                 else if (strength > 90 && strength < 101) {
+                    SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                     flag = FLAG_NONE;
                     if (angle < 45) {
+                        mTextViews.get(0).setText(sharedPref.getString(FLAG_RIGHT + "_ACTION", "+"));
                         mTextViews.get(0).setTextColor(Color.WHITE);
                         mTextViews.get(0).setTextSize(20);
                         mTextViews.get(0).setVisibility(View.VISIBLE);
                         flag = FLAG_RIGHT;
                     } else if (angle < 135) {
+                        mTextViews.get(1).setText(sharedPref.getString(FLAG_TOP + "_ACTION", "+"));
                         mTextViews.get(1).setTextColor(Color.WHITE);
                         mTextViews.get(1).setTextSize(20);
                         mTextViews.get(1).setVisibility(View.VISIBLE);
                         flag = FLAG_TOP;
                     } else if (angle < 225) {
+                        mTextViews.get(2).setText(sharedPref.getString(FLAG_LEFT + "_ACTION", "+"));
                         mTextViews.get(2).setTextColor(Color.WHITE);
                         mTextViews.get(2).setTextSize(20);
                         mTextViews.get(2).setVisibility(View.VISIBLE);
                         flag = FLAG_LEFT;
                     } else if (angle < 315) {
+                        mTextViews.get(3).setText(sharedPref.getString(FLAG_BOTTOM + "_ACTION", "+"));
                         mTextViews.get(3).setTextColor(Color.WHITE);
                         mTextViews.get(3).setTextSize(20);
                         mTextViews.get(3).setVisibility(View.VISIBLE);
                         flag = FLAG_BOTTOM;
                     } else {
+                        mTextViews.get(0).setText(sharedPref.getString(FLAG_RIGHT + "_ACTION", "+"));
                         mTextViews.get(0).setTextColor(Color.WHITE);
                         mTextViews.get(0).setTextSize(20);
                         mTextViews.get(0).setVisibility(View.VISIBLE);
@@ -176,13 +174,22 @@ public class LockScreenActivity extends Activity {
     }
 
     private void raiseAction(){
-        SharedPreferences sharedPref = getSharedPreferences("puggle", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         int actionNum = sharedPref.getInt(flag, -1);
         String actionName = sharedPref.getString(flag + "_ACTION", "");
+        String phoneNum = sharedPref.getString(flag + "_NUMBER", "");
 
-        if (actionNum == -1) {
-            DialogFragment newFragment = new SelectDialogFragment();
-            newFragment.show(getFragmentManager(), "puggle");
+        switch (actionNum) {
+            case -1:
+                DialogFragment newFragment = new SelectDialogFragment();
+                newFragment.show(getFragmentManager(), "puggle");
+                break;
+            case 0:
+                requestCall(phoneNum);
+                break;
+            case 1:
+                requestUnlock();
+                break;
         }
 
         Log.d("flag", flag);
@@ -296,9 +303,12 @@ public class LockScreenActivity extends Activity {
         }
     }
 
-    private void requesContact(int requestCode){
+    public void requestContact(int requestCode){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(intent, requestCode);
+    }
+    public String getFlag(){
+        return flag;
     }
 }
