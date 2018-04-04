@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">puggle</string>
     <string name="preference_file_key">puggle_pref</string>
+    <string name="keystore_key">puggle_key</string>
     <string name="select_title">추가하기</string>
     <string-array
         name="select_items">

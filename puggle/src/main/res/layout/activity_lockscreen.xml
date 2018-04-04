@@ -50,16 +50,16 @@
                 <io.github.controlwear.virtual.joystick.android.JoystickView
                     xmlns:custom="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/joystickView"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:layout_centerInParent="true"
                     custom:JV_backgroundColor="#00FFFFFF"
-                    custom:JV_backgroundSizeRatio="51%"
+                    custom:JV_backgroundSizeRatio="70%"
                     custom:JV_buttonDirection="both"
                     custom:JV_borderColor="#00FFFFFF"
                     custom:JV_borderWidth="2dp"
                     custom:JV_buttonColor="#FFFFFFFF"
-                    custom:JV_buttonSizeRatio="17%"
+                    custom:JV_buttonSizeRatio="25%"
                     custom:JV_fixedCenter="false"/>
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/waitingAnimationView"
@@ -79,41 +79,37 @@
                     android:id="@+id/labelTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="15dp"
+                    android:layout_above="@+id/joystickView"
                     android:visibility="gone"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textSize="15sp"/>
                 <TextView
                     android:id="@+id/labelBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="15dp"
+                    android:layout_below="@+id/joystickView"
                     android:visibility="gone"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textSize="15sp"/>
                 <TextView
                     android:id="@+id/labelLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="50dp"
+                    android:layout_toLeftOf="@+id/joystickView"
                     android:visibility="gone"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textSize="15sp"/>
                 <TextView
                     android:id="@+id/labelRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="50dp"
+                    android:layout_toRightOf="@+id/joystickView"
                     android:visibility="gone"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textSize="15sp"/>
             </RelativeLayout>
         </FrameLayout>

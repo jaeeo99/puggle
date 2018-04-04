@@ -98,4 +98,9 @@ dependencies {
 
     // Lottie dependencies
     implementation 'com.airbnb.android:lottie:2.5.0-rc1'
+
+    // PatternLock dependencies
+    compile 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    // Optional, for RxJava2 adapter
+    compile 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'
 }
