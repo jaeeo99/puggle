@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Build;
@@ -130,7 +129,6 @@ public class LockScreenActivity extends Activity {
         }, 100);
 
         if (!keyguardManager.isKeyguardSecure()) {
-
             Toast.makeText(this,
                     "Lock screen security not enabled in Settings",
                     Toast.LENGTH_LONG).show();
@@ -143,12 +141,10 @@ public class LockScreenActivity extends Activity {
             Toast.makeText(this,
                     "Fingerprint authentication permission not enabled",
                     Toast.LENGTH_LONG).show();
-
             return;
         }
 
         if (!fingerprintManager.hasEnrolledFingerprints()) {
-
             // This happens when no fingerprints are registered.
             Toast.makeText(this,
                     "Register at least one fingerprint in Settings",
@@ -380,7 +376,7 @@ public class LockScreenActivity extends Activity {
         SharedPreferences sharedPref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
-    private void requestUnlock(){
+    public void requestUnlock(){
         if (keyLock == null) {
             keyLock = keyguardManager.newKeyguardLock(Context.KEYGUARD_SERVICE);
         }

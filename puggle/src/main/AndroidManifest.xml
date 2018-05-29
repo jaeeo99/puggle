@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.LockScreenActivity">
+        <activity
+            android:name=".activity.LockScreenActivity">
         </activity>
 
         <service
